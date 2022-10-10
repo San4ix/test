@@ -15,6 +15,8 @@ if (isset($_POST['login']) && isset($_POST['password']))
     $password = stripslashes($_POST['password']);
     $password = htmlspecialchars($_POST['password']);
     $password = trim($_POST['password']);
+    $salt = "iu4gr7ku7n2ooms";
+    $passwordHash = md5($salt.$password);
 
     
 
@@ -29,7 +31,7 @@ if (isset($_POST['login']) && isset($_POST['password']))
         {
             foreach($dbarray as $value)
             {
-                if($value['password'] == $password && $value['login'] == $login)
+                if($value['password'] == $passwordHash && $value['login'] == $login)
                 {
                     $_SESSION['login'] = $login;
                     $_SESSION['name'] = $value['name'];
@@ -58,7 +60,7 @@ if (isset($_POST['login']) && isset($_POST['password']))
     }
 
 
-if (empty($login) or empty($password))
+if (empty($login) or empty($passwordHash))
     {
         echo "<form id='login' action='login.php' method='post'> 
         <h1>Форма авторизации</h1>  

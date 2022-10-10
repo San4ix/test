@@ -14,13 +14,15 @@ exit;
         $password = stripslashes($_POST['password']);
         $password = htmlspecialchars($_POST['password']);
         $password = trim($_POST['password']);
+        $salt = "iu4gr7ku7n2ooms";
+        $passwordHash = md5($salt.$password);
         $name = stripslashes($_POST['name']);
         $name = htmlspecialchars($_POST['name']);
         $name = trim($_POST['name']);
         $email = stripslashes($_POST['email']);
         $email = htmlspecialchars($_POST['email']);
         $email = trim($_POST['email']);
-
+        
         $dbarray = [];
         if (file_exists('db.json'))
         {
@@ -32,7 +34,7 @@ exit;
             {
                 foreach($dbarray as $value)
                 {
-                if($value['password'] == $password && $value['login'] == $login)
+                if($value['password'] == $passwordHash && $value['login'] == $login)
                 {
                     echo "<h1>Такой пользователь или пароль уже существует!</h1></br>";
                     echo'<a href="reg.php"> Вернуться к регистрации</a></br>';
@@ -46,7 +48,7 @@ exit;
             }
             
            
-           $dbarray[] = array('login' => $login, 'password' => $password, 'name' => $name, 'email' => $email,);
+           $dbarray[] = array('login' => $login, 'password' => $passwordHash, 'name' => $name, 'email' => $email,);
            
            
            file_put_contents ('db.json', json_encode($dbarray,JSON_FORCE_OBJECT));
@@ -66,10 +68,10 @@ exit;
         <input type='text' name='login' required='required' minlength='6'></p> 
 
     <p>Пароль(минимум 6 символов , обязательно должен состоять из цифр и букв)<br />
-        <input type='password' name='password' required='required' minlength='6'></p> 
+        <input type='password' name='password' required='required'  pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}'></p> 
 
     <p>Подтверждение пароля<br />
-        <input type='password' name='confirm_password' required='required'></p> 
+        <input type='password' name='confirm_password' required='required'  pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}'></p> 
 
     <p>Имя пользователя<br />
         <input type='text' name='name' required='required'></p>
