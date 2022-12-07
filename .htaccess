@@ -1,5 +1,6 @@
 Options -Indexes
 <Files db.json>  
-
 deny from all  
 </Files> 
+
+
