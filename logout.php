@@ -6,13 +6,11 @@
 <noscript><span>У Вас отключён JavaScript...</span></noscript>
 
 <?php 
-session_start();
-
 if (!isset ($_SESSION['login']) && !isset ($_SESSION['name'])){
  header('Location: index.php');
 exit;
 }
-//if ($_GET['logout']){
+session_start();
 if(ini_get ("session.use_cookies"))
 {
     $params = session_get_cookie_params();
@@ -20,7 +18,7 @@ if(ini_get ("session.use_cookies"))
         $params["path"],$params["domain"],
         $params["secure"], $params["httponly"]);
 }
-//}
+
  unset($_SESSION['login']);
  unset($_SESSION['name']);
         echo "<p><input type='button' id='buttonlogin' value='Вход'> <br></p>";

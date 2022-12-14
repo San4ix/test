@@ -5,11 +5,7 @@
 <script src="ajax.js"></script>
 <noscript><span>У Вас отключён JavaScript...</span></noscript>
 <?php
-
 session_start();
-
-
-
 if (isset($_POST['jsonlogin'])) 
 {   $cartlodin = json_decode( $_POST['jsonlogin'] );
  
@@ -75,8 +71,8 @@ if (!isset($_SESSION['login']))
     {
         echo " 
         <form id='formlogin' name='formlogin'>
-        <p>Логин<br /><input type='text' id='login' name='login' required='required' minlength='6'></p> 
-        <p>Пароль<br /><input type='password' id='password' name='password' required=required minlength='6'></p> 
+        <p>Логин<br /><input type='text' id='login' name='login' required='required' pattern='[A-Za-z0-9]{6,}'></p> 
+        <p>Пароль<br /><input type='password' id='password' name='password' required=required pattern='(?=.*\d)(?=.*\D)[A-Za-z0-9]{6,}'></p> 
         <p><input type='submit' id='loginbutton' name='loginbutton' value='Вход'></p>
         </form>
        

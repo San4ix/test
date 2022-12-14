@@ -6,13 +6,11 @@
 <noscript><span>У Вас отключён JavaScript...</span></noscript>
 
 <?php
-session_start();
-
 if (isset ($_SESSION['login']) && isset ($_SESSION['name'])){
  header('Location: index.php');
 exit;
 }
-
+session_start();
    if (isset($_POST['jsonreg']))
    {
         $cartreg = json_decode( $_POST['jsonreg'] );
@@ -37,8 +35,8 @@ exit;
         if(!filter_var($email, FILTER_VALIDATE_EMAIL))
                 {
                     echo "<h1>Проверьте правильность заполнения электронной почты!</h1></br>";
-                    echo'<a href="reg.php"> Вернуться к регистрации</a></br>';
-                    echo'<a href="index.php"> На главную</a>';
+                    echo "<input type='button' id='buttonreg' value='Регистрация'></br>";
+                    echo '<a href="index.php"> На главную</a>';
                     exit;
 
                 }
@@ -54,19 +52,19 @@ exit;
             {
                 foreach($dbarray as $value)
                 {
-                    if($value['password'] == $passwordHash && $value['login'] == $login)
+                    if($value['password'] == $passwordHash or $value['login'] == $login)
                     {
                         echo "<h1>Такой пользователь или пароль уже существует!</h1></br>";
-                        echo'<a href="reg.php"> Вернуться к регистрации</a></br>';
-                        echo'<a href="index.php"> На главную</a>';
+                        echo "<input type='button' id='buttonreg' value='Регистрация'></br>";
+                        echo '<a href="index.php"> На главную</a>';
                         exit;
 
                     };
                     if($value['email'] == $email)
                     {
                         echo "<h1>Такой Электронный адрес уже существует!</h1></br>";
-                        echo'<a href="reg.php"> Вернуться к регистрации</a></br>';
-                        echo'<a href="index.php"> На главную</a>';
+                        echo "<input type='button' id='buttonreg' value='Регистрация'></br>";
+                        echo '<a href="index.php"> На главную</a>';
                         exit;
 
                     };
@@ -81,7 +79,7 @@ exit;
            
            file_put_contents ('db.json', json_encode($dbarray,JSON_FORCE_OBJECT));
            echo"<h1>Новый пользователь успешно зарегестрирован!</h1></br>";
-           echo'<a href="login.php"> Войти</a></br>';
+           echo"<p><input type='button' id='buttonlogin' value='Вход'> <br></p>";
            echo'<a href="index.php"> На главную</a>';
         }
     }
@@ -93,16 +91,16 @@ exit;
     echo "<form id='formreg' name ='formreg'> 
     <h1>Регистрация</h1>  
     <p>Логин (токлько латинские буквы, или цифры, минимум 6 символов, без пробелов)<br />
-    <input type='text' name='login' id='login' required='required' pattern='(?=.*[^\s])(?=.*[A-Za-z0-9]).{6,}'></p> 
+    <input type='text' name='login' id='login' required='required' pattern='[A-Za-z0-9]{6,}'></p> 
 
     <p>Пароль(минимум 6 символов , обязательно должен состоять из цифр и букв, без пробелов)<br />
-    <input type='password' name='password' id='password' required='required'  pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\s]).{6,}'></p> 
+    <input type='password' name='password' id='password' required='required'  pattern='(?=.*\d)(?=.*\D)[A-Za-z0-9]{6,}'></p> 
 
     <p>Подтверждение пароля<br />
-    <input type='password' name='confirm_password' id='confirm_password' required='required'  pattern='(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\s]).{6,}'></p> 
+    <input type='password' name='confirm_password' id='confirm_password' required='required'></p> 
 
-    <p>Имя пользователя (на русском языке)<br />
-    <input type='text' name='name' id='name' required='required' pattern='(?=.*^[А-Яа-яЁё]+$).{2,}'></p>
+    <p>Имя пользователя (минимум 2 символа , только буквы)<br />
+    <input type='text' name='name' id='name' required='required' pattern='[a-zA-ZА-Яа-яЁё]{2,}'></p>
 
     <p>Адрес email<br /><input type='email' name='email' id='email' required='required' pattern='([a-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})'></p> 
     <p><input type='submit' name='regbutton' id='regbutton' value='Войти'> <br></p>

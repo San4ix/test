@@ -1,6 +1,9 @@
 Options -Indexes
-<Files db.json>  
+<Files "db.json">  
 deny from all  
 </Files> 
+<Files ".htaccess">  
+    deny from all  
+    </Files> 
 
 
