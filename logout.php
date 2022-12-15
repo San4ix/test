@@ -6,11 +6,12 @@
 <noscript><span>У Вас отключён JavaScript...</span></noscript>
 
 <?php 
+session_start();
 if (!isset ($_SESSION['login']) && !isset ($_SESSION['name'])){
  header('Location: index.php');
 exit;
 }
-session_start();
+
 if(ini_get ("session.use_cookies"))
 {
     $params = session_get_cookie_params();
